@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meeting-notetaker"
+dynamic = ["version"]
+description = "Joins Zoom and Teams calls on its own, records them, and writes the notes."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = ["playwright>=1.45"]
+classifiers = [
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+notetaker = "notetaker.cli:main"
+
+[tool.setuptools]
+packages = ["notetaker"]
+
+[tool.setuptools.dynamic]
+version = { attr = "notetaker.__version__" }

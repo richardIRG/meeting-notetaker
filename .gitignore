@@ -1,0 +1,34 @@
+# Recordings, transcripts, and notes
+*.mp3
+*.wav
+*.m4a
+*.aiff
+capture.*
+transcript.json
+transcript.md
+notes.json
+notes.md
+meta.json
+run.log
+ffmpeg.err.log
+/meetings/
+/Meetings/
+/output/
+
+# Local configuration and secrets
+config.toml
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# macOS
+.DS_Store

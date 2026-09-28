@@ -1,0 +1,87 @@
+# meeting-notetaker configuration
+#
+# Copy to ~/.config/meeting-notetaker/config.toml and edit. Every setting is
+# optional; the values below are the defaults. Keep API keys out of this file:
+# they belong in the env file (see .env.example).
+
+[general]
+# Where each recording gets its own folder: <output_dir>/<date>-<title>/
+output_dir = "~/Meetings"
+# Name the recorder shows in the meeting. Keep it neutral. Teams flags a guest
+# whose name contains a signed-in participant's name, and rejects parentheses.
+display_name = "Notetaker"
+# Leave the call after this many minutes even if it is still going.
+max_minutes = 90
+# How long to keep trying to get in. Raise it when you start the recorder
+# early and it will sit on a "waiting for the host" page.
+join_window_minutes = 7
+# Send a notification if the recorder is still waiting to be admitted from a
+# lobby or waiting room after this many minutes (needs Telegram enabled).
+lobby_alert_minutes = 5
+# Delete capture.mp3 after a successful transcript when false.
+keep_audio = true
+# Optional: also copy each notes.md here (for example a notes app's folder).
+notes_copy_dir = ""
+# Lock files live here.
+state_dir = "~/.local/state/meeting-notetaker"
+# KEY=VALUE file with API keys, loaded at startup. Variables already in the
+# environment win.
+env_file = "~/.config/meeting-notetaker/.env"
+
+[audio]
+# Loopback device. Output is switched here during the call and ffmpeg records it.
+device = "BlackHole 2ch"
+# Output device to restore after a recording when the Mac was already on the
+# loopback device (or the current device could not be read). Example:
+# "MacBook Pro Speakers". Empty means restore whatever was active.
+fallback_output_device = ""
+# Output volume set on the loopback device during capture. At 0 the capture
+# is digital silence.
+capture_volume = 90
+# A capture whose peak is at or below this level is treated as silent and
+# not sent for transcription.
+silence_threshold_db = -80.0
+
+[chrome]
+path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# The recorder's own Chrome profile. Chrome refuses remote debugging on your
+# default profile, and a separate profile keeps your browsing untouched.
+profile_dir = "~/.local/share/meeting-notetaker/chrome-profile"
+# Remote debugging port for the recorder's Chrome. Pick a free port.
+cdp_port = 9250
+# Quit the recorder's Chrome after the meeting if this run started it.
+close_after = true
+
+[tools]
+# Names are looked up on PATH, then in /opt/homebrew/bin and /usr/local/bin.
+ffmpeg = "ffmpeg"
+switch_audio_source = "SwitchAudioSource"
+
+[transcription]
+# ElevenLabs speech-to-text model.
+model = "scribe_v2"
+# Names and jargon the transcriber should spell correctly.
+keyterms = []
+timeout_seconds = 1800
+
+[notes]
+enabled = true
+# Any OpenAI chat model that supports JSON schema output.
+model = "gpt-5.6-terra"
+# Set to "" for models that do not accept reasoning_effort.
+reasoning_effort = "high"
+max_completion_tokens = 16384
+# Change only for an OpenAI-compatible endpoint.
+base_url = "https://api.openai.com/v1"
+
+[telegram]
+# Notifications for: could not join, waiting in a lobby, finished.
+# Needs TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in the env file.
+enabled = false
+
+[schedule]
+# LaunchAgent labels look like <label_prefix>.<YYYYMMDD-HHMM>-<title>
+label_prefix = "local.meeting-notetaker"
+# Start the recorder this many minutes before the meeting.
+lead_minutes = 3
+log_dir = "~/Library/Logs/meeting-notetaker"
